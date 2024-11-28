@@ -150,28 +150,21 @@ describe("POST /api/articles/:article_id/comments", () => {
   });
 });
 
-describe("POST /api/articles/:article_id/comments", () => {
-  test("201: Responds with the posted comment", () => {
-    const newComment = {
-      username: "butter_bridge",
-      body: "This is a test comment.",
-    };
-
+describe("PATCH /api/articles/:article_id", () => {
+  test("200: Updates the article's votes and responds with the updated article", () => {
+    const updateVotes = { inc_votes: 10 };
     return request(app)
-      .post("/api/articles/1/comments")
-      .send(newComment)
-      .expect(201)
-      .then(({ body: { comment } }) => {
-        expect(comment).toEqual(
+      .patch("/api/articles/1")
+      .send(updateVotes)
+      .expect(200)
+      .then(({ body: { article } }) => {
+        expect(article).toEqual(
           expect.objectContaining({
-            comment_id: expect.any(Number),
             article_id: 1,
-            author: "butter_bridge",
-            body: "This is a test comment.",
-            created_at: expect.any(String),
-            votes: 0,
+            votes: expect.any(Number),
           })
         );
+        expect(article.votes).toBeGreaterThan(0);
       });
   });
 });
