@@ -11,7 +11,6 @@ exports.postCommentByArticleId = (req, res, next) => {
 
   insertCommentByArticleId(article_id, username, body)
     .then((comment) => {
-      console.log("Comment inserted:", comment); // Log the inserted comment
       res.status(201).json({ comment });
     })
     .catch((err) => {

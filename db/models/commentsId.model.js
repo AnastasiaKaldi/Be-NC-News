@@ -7,12 +7,9 @@ exports.insertCommentByArticleId = (article_id, username, body) => {
     RETURNING comment_id, article_id, author, body, created_at, votes;
   `;
 
-  console.log("Executing query:", queryStr, [article_id, username, body]);
-
   return db
     .query(queryStr, [article_id, username, body])
     .then(({ rows }) => {
-      console.log("Query result:", rows); // Log the query result
       return rows[0]; // Ensure the model returns the first row
     })
     .catch((err) => {
