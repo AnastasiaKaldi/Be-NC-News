@@ -132,7 +132,6 @@ describe("POST /api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(201)
       .then(({ body: { comment } }) => {
-        console.log(comment, "<<<<<<<<<<<<<<<s");
         expect(comment).toEqual(
           expect.objectContaining({
             comment_id: expect.any(Number),
