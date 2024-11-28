@@ -120,3 +120,32 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("201: Responds with the posted comment", () => {
+    const newComment = {
+      username: "butter_bridge",
+      body: "This is a test comment.",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body: { comment } }) => {
+        console.log(comment, "<<<<<<<<<<<<<<<s");
+        expect(comment).toEqual(
+          expect.objectContaining({
+            comment_id: expect.any(Number),
+            article_id: 1,
+            author: "butter_bridge",
+            body: "This is a test comment.",
+            created_at: expect.any(String),
+            votes: 0,
+          })
+        );
+      })
+      .catch((err) => {
+        console.error("Test failed:", err);
+      });
+  });
+});
