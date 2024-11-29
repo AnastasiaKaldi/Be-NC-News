@@ -12,6 +12,9 @@ const {
   postCommentByArticleId,
 } = require("../db/controller/commentsId.controller");
 const { patchArticleById } = require("./controller/articlesIdPatch.controller");
+const {
+  deleteCommentById,
+} = require("../db/controller/commentsIdDelete.controller");
 
 const app = express();
 app.use(express.json());
@@ -29,6 +32,8 @@ app.get("/api/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", postCommentByArticleId);
 
 app.patch("/api/articles/:article_id", patchArticleById);
+
+app.delete("/api/comments/:comment_id", deleteCommentById);
 
 if (process.env.NODE_ENV !== "test") {
   app.listen(3000, () => {
