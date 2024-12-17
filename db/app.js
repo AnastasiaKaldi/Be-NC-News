@@ -22,7 +22,7 @@ app.use(cors());
 
 app.use(express.json());
 app.get("/api", (req, res) => {
-  res.status(200).json({ endpoints: endpointsJson });
+  res.status(200).json({ endpoints: endpointsJson }).send("Server is Running!");
 });
 app.get("/api/topics", getTopics);
 
