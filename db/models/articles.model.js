@@ -18,7 +18,13 @@ exports.fetchArticles = () => {
     ORDER BY articles.created_at DESC;
   `;
 
-  return db.query(queryStr).then(({ rows }) => {
-    return rows;
-  });
+  return db
+    .query(queryStr)
+    .then(({ rows }) => {
+      return rows;
+    })
+    .catch((err) => {
+      console.error("Error in fetchArticles:", err);
+      throw err;
+    });
 };
