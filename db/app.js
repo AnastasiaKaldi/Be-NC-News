@@ -39,7 +39,7 @@ app.patch("/api/articles/:article_id", patchArticleById);
 app.delete("/api/comments/:comment_id", deleteCommentById);
 
 if (process.env.NODE_ENV !== "test") {
-  app.listen(10000, () => {
+  app.listen(3000, () => {
     console.log("Server is running on port 3000");
   });
 }
