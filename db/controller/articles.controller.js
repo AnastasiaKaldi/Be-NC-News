@@ -10,6 +10,6 @@ exports.getArticles = (req, res, next) => {
     })
     .catch((err) => {
       console.error("Error fetching articles:", err);
-      next({ status: 500, message: "Failed to fetch topics" });
+      next({ status: 500, message: "Failed to fetch articles" });
     });
 };
