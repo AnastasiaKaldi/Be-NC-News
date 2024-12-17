@@ -36,30 +36,21 @@
 // };
 
 const articles = require("../data/test-data/articles");
+const comments = require("../data/test-data/comments");
 
-exports.fetchArticles = async () => {
-  try {
-    const commentCountResult = await pool.query(
-      "SELECT article_id, COUNT(*) AS comment_count FROM comments GROUP BY article_id"
-    );
-
-    const commentCountMap = commentCountResult.rows.reduce((acc, row) => {
-      acc[row.article_id] = row.comment_count;
-      return acc;
-    }, {});
-
-    const articlesWithCommentCount = articles.map((article) => {
-      const { body, ...articleWithoutBody } = article;
-      const comment_count = commentCountMap[article.article_id] || 0;
-      return {
-        ...articleWithoutBody,
-        comment_count,
-      };
-    });
-
-    return articlesWithCommentCount.sort((a, b) => b.created_at - a.created_at);
-  } catch (error) {
-    console.error("Error fetching articles:", error);
-    throw error;
-  }
+exports.fetchArticles = () => {
+  return Promise.resolve(
+    articles
+      .map((article) => {
+        const articleCommentsCount = comments.filter(
+          (comment) => comment.article_id === article.article_id
+        ).length;
+        const { body, ...articleWithoutBody } = article;
+        return {
+          ...articleWithoutBody,
+          comment_count: articleCommentsCount,
+        };
+      })
+      .sort((a, b) => b.created_at - a.created_at)
+  );
 };
