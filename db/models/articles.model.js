@@ -29,8 +29,22 @@
 //     });
 // };
 
+// const articles = require("../data/test-data/articles");
+
+// exports.fetchArticles = () => {
+//   return Promise.resolve(articles);
+// };
+
 const articles = require("../data/test-data/articles");
+const comments = require("../data/test-data/comments");
 
 exports.fetchArticles = () => {
-  return Promise.resolve(articles);
+  return Promise.resolve(
+    articles.map((article) => {
+      const articleComments = comments.filter(
+        (comment) => comment.article_id === article.article_id
+      );
+      return { ...article, comments: articleComments };
+    })
+  );
 };
