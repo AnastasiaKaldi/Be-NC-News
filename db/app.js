@@ -19,10 +19,16 @@ const cors = require("cors");
 
 const app = express();
 app.use(cors());
-
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res
+    .status(200)
+    .send("Welcome to the NC News API! Visit /api for available endpoints.");
+});
+
 app.get("/api", (req, res) => {
-  res.status(200).json({ endpoints: endpointsJson }).send("Server is Running!");
+  res.status(200).json({ endpoints: endpointsJson });
 });
 app.get("/api/topics", getTopics);
 
