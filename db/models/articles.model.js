@@ -40,11 +40,17 @@ const comments = require("../data/test-data/comments");
 
 exports.fetchArticles = () => {
   return Promise.resolve(
-    articles.map((article) => {
-      const articleComments = comments.filter(
-        (comment) => comment.article_id === article.article_id
-      );
-      return { ...article, comments: articleComments };
-    })
+    articles
+      .map((article) => {
+        const articleCommentsCount = comments.filter(
+          (comment) => comment.article_id === article.article_id
+        ).length;
+        const { body, ...articleWithoutBody } = article;
+        return {
+          ...articleWithoutBody,
+          comment_count: articleCommentsCount,
+        };
+      })
+      .sort((a, b) => b.created_at - a.created_at)
   );
 };
