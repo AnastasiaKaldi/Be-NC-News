@@ -4,7 +4,7 @@ exports.getArticles = (req, res, next) => {
   fetchArticles()
     .then((articles) => {
       if (!articles || articles.length === 0) {
-        return next({ status: 404, message: "No topics found" });
+        return next({ status: 404, message: "No articles found" });
       }
       res.status(200).json({ articles });
     })

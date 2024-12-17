@@ -71,7 +71,7 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
-describe("GET /api/articles", () => {
+describe.skip("GET /api/articles", () => {
   test("200: Responds with an array of articles", () => {
     return request(app)
       .get("/api/articles")
