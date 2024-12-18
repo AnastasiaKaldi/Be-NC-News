@@ -1,9 +1,14 @@
-const db = require("../connection");
+const comments = require("../data/test-data/comments");
 
-exports.deleteCommentById = (comment_id) => {
-  const queryStr = `
-    DELETE FROM comments
-    WHERE comment_id = $1;
-  `;
-  return db.query(queryStr, [comment_id]).then(({ rowCount }) => rowCount);
+exports.removeCommentById = (comment_id) => {
+  const index = comments.findIndex(
+    (comment) => comment.comment_id === Number(comment_id)
+  );
+
+  if (index !== -1) {
+    comments.splice(index, 1);
+    return Promise.resolve(true);
+  } else {
+    return Promise.resolve(false);
+  }
 };

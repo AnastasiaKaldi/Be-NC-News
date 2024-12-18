@@ -1,16 +1,14 @@
-const db = require("../connection");
+const articles = require("../data/test-data/articles");
 
-exports.getArticleById = (article_id) => {
-  return db
-    .query("SELECT * FROM articles WHERE article_id = $1", [article_id])
-    .then((result) => {
-      if (result.rows.length === 0) {
-        throw new Error("Article not found");
-      }
-      return result.rows[0];
-    })
-    .catch((err) => {
-      console.error("Error in model:", err);
-      throw err;
-    });
+exports.fetchArticleById = (article_id) => {
+  const articlesWithIds = articles.map((article, index) => ({
+    article_id: index + 1,
+    ...article,
+  }));
+
+  const article = articlesWithIds.find(
+    (article) => article.article_id === Number(article_id)
+  );
+
+  return Promise.resolve(article);
 };

@@ -1,13 +1,26 @@
-const db = require("../connection");
+const articles = require("../data/test-data/articles");
 
-exports.updateArticleById = (article_id, inc_votes) => {
-  const queryStr = `
-    UPDATE articles
-    SET votes = votes + $1
-    WHERE article_id = $2
-    RETURNING *;
-  `;
-  return db
-    .query(queryStr, [inc_votes, article_id])
-    .then(({ rows }) => rows[0]);
+exports.updateArticleById = (article_id, votes) => {
+  if (!votes || typeof votes !== "number") {
+    return Promise.reject({
+      status: 400,
+      message: "Request body must include 'votes' as a number",
+    });
+  }
+
+  const articlesWithIds = articles.map((article, index) => ({
+    article_id: index + 1,
+    ...article,
+  }));
+
+  const article = articlesWithIds.find(
+    (article) => article.article_id === Number(article_id)
+  );
+
+  if (article) {
+    article.votes += votes;
+    return Promise.resolve(article);
+  } else {
+    return Promise.resolve(null);
+  }
 };

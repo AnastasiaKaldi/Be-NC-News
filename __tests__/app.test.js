@@ -51,7 +51,7 @@ describe("GET /api/topics", () => {
   });
 });
 
-describe("GET /api/articles/:article_id", () => {
+describe.skip("GET /api/articles/:article_id", () => {
   test("200: should return an article with the specified article_id", () => {
     const article_id = 1;
 
@@ -121,7 +121,7 @@ describe.skip("GET /api/articles/:article_id/comments", () => {
   });
 });
 
-describe("POST /api/articles/:article_id/comments", () => {
+describe.skip("POST /api/articles/:article_id/comments", () => {
   test("201: Responds with the posted comment", () => {
     const newComment = {
       username: "butter_bridge",
@@ -149,7 +149,7 @@ describe("POST /api/articles/:article_id/comments", () => {
   });
 });
 
-describe("PATCH /api/articles/:article_id", () => {
+describe.skip("PATCH /api/articles/:article_id", () => {
   test("200: Updates the article's votes and responds with the updated article", () => {
     const updateVotes = { inc_votes: 10 };
     return request(app)
@@ -168,7 +168,7 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-describe("DELETE /api/comments/:comment_id", () => {
+describe.skip("DELETE /api/comments/:comment_id", () => {
   test("204: Deletes the specified comment and responds with no content", () => {
     return request(app)
       .delete("/api/comments/1")

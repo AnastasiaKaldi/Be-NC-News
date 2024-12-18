@@ -1,20 +1,15 @@
-const { insertCommentByArticleId } = require("../models/commentsId.model");
+const { addComment } = require("../models/commentsId.model");
+
 exports.postCommentByArticleId = (req, res, next) => {
   const { article_id } = req.params;
-  const { username, body } = req.body;
+  const { body, author } = req.body;
 
-  if (!username || !body) {
-    return res
-      .status(400)
-      .send({ error: "Bad request: Missing required fields" });
-  }
-
-  insertCommentByArticleId(article_id, username, body)
-    .then((comment) => {
-      res.status(201).json({ comment });
+  addComment(article_id, body, author)
+    .then((newComment) => {
+      res.status(201).json({ comment: newComment });
     })
     .catch((err) => {
-      console.error("Error in postCommentByArticleId:", err); // Log the error details
-      next(err); // Forward to the error-handling middleware
+      console.error("Error adding comment:", err);
+      next({ status: 500, message: "Failed to add comment" });
     });
 };

@@ -1,19 +1,22 @@
-const db = require("../connection");
+const comments = require("../data/test-data/comments");
 
-exports.insertCommentByArticleId = (article_id, username, body) => {
-  const queryStr = `
-    INSERT INTO comments (article_id, author, body, created_at, votes)
-    VALUES ($1, $2, $3, NOW(), 0)
-    RETURNING comment_id, article_id, author, body, created_at, votes;
-  `;
-
-  return db
-    .query(queryStr, [article_id, username, body])
-    .then(({ rows }) => {
-      return rows[0]; // Ensure the model returns the first row
-    })
-    .catch((err) => {
-      console.error("Error in DB query:", err);
-      throw err; // Rethrow error so it gets caught in the controller's catch block
+exports.addComment = (article_id, body, author) => {
+  if (!body || !author) {
+    return Promise.reject({
+      status: 400,
+      message: "Request body must include 'body' and 'author'",
     });
+  }
+
+  const newComment = {
+    body,
+    author,
+    article_id: Number(article_id),
+    votes: 0,
+    created_at: Date.now(),
+  };
+
+  comments.push(newComment);
+
+  return Promise.resolve(newComment);
 };
