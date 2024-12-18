@@ -1,19 +1,17 @@
-const { getArticleById } = require("../models/articlesId.model");
+const { fetchArticleById } = require("../models/articlesId.model");
 
-// Controller for fetching an article by ID
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
-  getArticleById(article_id)
+
+  fetchArticleById(article_id)
     .then((article) => {
       if (!article) {
-        const error = new Error("Article not found");
-        error.status = 404;
-        return next(error); // Pass to the error handling middleware
+        return next({ status: 404, message: "Article not found" });
       }
       res.status(200).json({ article });
     })
     .catch((err) => {
-      console.error("Error in getting article:", err);
-      next(err); // Pass any errors to the error handler
+      console.error("Error fetching article by ID:", err);
+      next({ status: 500, message: "Failed to fetch article" });
     });
 };
