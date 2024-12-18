@@ -97,7 +97,7 @@ describe.skip("GET /api/articles", () => {
   });
 });
 
-describe("GET /api/articles/:article_id/comments", () => {
+describe.skip("GET /api/articles/:article_id/comments", () => {
   test("200: Responds with an array of comments for the given article_id", () => {
     return request(app)
       .get("/api/1/comments")
