@@ -5,8 +5,7 @@ exports.updateArticleById = (article_id, votes) => {
   console.log("votes:", votes);
 
   console.log("Received votes:", votes);
-  if (!votes || typeof votes !== "number") {
-    console.error("Invalid votes value:", votes);
+  if (votes === undefined || typeof votes !== "number") {
     return Promise.reject({
       status: 400,
       message: "Request body must include 'votes' as a number",
