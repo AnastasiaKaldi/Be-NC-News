@@ -4,8 +4,9 @@ exports.updateArticleById = (article_id, votes) => {
   console.log("article_id:", article_id);
   console.log("votes:", votes);
 
+  console.log("Received votes:", votes);
   if (!votes || typeof votes !== "number") {
-    console.error("Votes validation failed");
+    console.error("Invalid votes value:", votes);
     return Promise.reject({
       status: 400,
       message: "Request body must include 'votes' as a number",
