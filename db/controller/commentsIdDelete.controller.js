@@ -11,7 +11,6 @@ exports.deleteCommentById = (req, res, next) => {
       res.status(204).send();
     })
     .catch((err) => {
-      console.error("Error deleting comment:", err);
       next({ status: 500, message: "Failed to delete comment" });
     });
 };
