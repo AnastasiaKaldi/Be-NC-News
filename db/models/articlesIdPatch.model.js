@@ -1,34 +1,24 @@
 const articles = require("../data/test-data/articles");
 
-exports.updateArticleById = (article_id, votes) => {
-  console.log("article_id:", article_id);
-  console.log("votes:", votes);
+if (!votes || typeof votes !== "number") {
+  return Promise.reject({
+    status: 400,
+    message: "Request body must include 'votes' as a number",
+  });
+}
 
-  console.log("Received votes:", votes);
-  if (votes === undefined || typeof votes !== "number") {
-    return Promise.reject({
-      status: 400,
-      message: "Request body must include 'votes' as a number",
-    });
-  }
+const articlesWithIds = articles.map((article, index) => ({
+  article_id: index + 1,
+  ...article,
+}));
 
-  const articlesWithIds = articles.map((article, index) => ({
-    article_id: index + 1,
-    ...article,
-  }));
+const article = articlesWithIds.find(
+  (article) => article.article_id === Number(article_id)
+);
 
-  console.log("Mapped articles:", articlesWithIds);
-
-  const article = articlesWithIds.find(
-    (article) => article.article_id === Number(article_id)
-  );
-
-  if (article) {
-    console.log("Found article:", article);
-    article.votes += votes;
-    return Promise.resolve(article);
-  } else {
-    console.error("Article not found");
-    return Promise.resolve(null);
-  }
-};
+if (article) {
+  article.votes += votes;
+  return Promise.resolve(article);
+} else {
+  return Promise.resolve(null);
+}
